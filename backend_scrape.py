@@ -3,7 +3,7 @@ import requests
 import pyshorteners
 
 a = 1
-def get_data(url,budget,brands:list):
+def get_data(url,brands:list,budget):
     global a
     
     print(f"Page {a}")
@@ -26,15 +26,15 @@ def get_data(url,budget,brands:list):
             name= info.find('h3',class_='name').text
             product_link = soup.find('a',{'class':'core'})
             product_link = 'https://www.jumia.com.ng'+product_link['href']
-            count = 0
-            for brand in brands:
-                if brand.lower() not in name.lower():
-                    count += 1
-            if count == len(brands):
-                print(f"{name}. Price {price}. Link: {product_link}")
-                
-                    
-                    
+            if brands != ['']:
+                count = 0
+                for brand in brands:
+                    if brand.lower() not in name.lower():
+                        count += 1
+                if count == len(brands):
+                    print(f"{name}. Price {price}. Link: {product_link}")
+            else:        
+                    print(f"{name}. Price {price}. Link: {product_link}")  
     a += 1
 
     return soup
@@ -48,4 +48,3 @@ def next_page(soup):
         return link
     else:
         return
-
